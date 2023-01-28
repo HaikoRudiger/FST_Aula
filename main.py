@@ -1,22 +1,24 @@
 from fastapi import FastAPI
+from fastapi import HTTPException
+from fastapi import status
 
 app = FastAPI()
 
 @app.get('/')
 async def raiz():
-    return {"mensagem": "MAS QUE PORR... ????"}
+    return {"mensagem": "oi ????"}
 
 alunos = {
     
-    1: "Lirinha",
-    2: "Boladao",
-    3: "Haiko",
-    4: "Guilherme", 
+    1: {"nome" : "nicolas", "idade" : 19, "email" : "asas@gmail"},
+    2: {"nome" : "haiko", "idade" : 12, "email" : "qwqw@gmail"},
+    3: {"nome" : "w", "idade" : 39, "email" : "asas@gmail"},
+    4: {"nome" : "joao", "idade" : 17, "email" : "nicqwk@gmail"}
 
 }
 
-@app.get('/aluno')
-async def get_aluno():
+@app.get('/alunos')
+async def get_alunos():
     return alunos
 
 if __name__ == '__main__':
@@ -30,3 +32,33 @@ if __name__ == '__main__':
         reload = True
 
     )
+
+@app.get('/alunos')
+async def get_alunos():
+    return alunos
+
+@app.get('/alunos/{alunos_id}')
+async def read_item(alunos_id: int):
+    aluno = alunos[alunos_id]
+    alunos.update({'id': alunos_id})
+    
+    return aluno 
+
+@app.get('/alunos/{alunos_id}')
+async def read_item(alunos_id: int):
+    try:
+        aluno = alunos[alunos_id]
+        alunos.update({'id':alunos_id})
+        return aluno
+    except KeyError:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND, detail = 'Não encontramos'
+        )
+     
+
+
+    
+
+
+
+
