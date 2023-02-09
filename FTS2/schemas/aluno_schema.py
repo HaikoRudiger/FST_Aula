@@ -1,13 +1,10 @@
-from core.configs import settings
-from packaging import BaseModel as SCBaseModel
+from typing import Optional
+from pydantic import BaseModel as SCBaseModel
 
-class AlunoSchema(settings.DB_BaseModel):
+class AlunoSchema(SCBaseModel):
+        id: Optional[int]
+        nome : str 
+        email : str 
 
-    __tablename__ = 'alunos'
-
-    id: int
-    nome: str
-    email: str
-
-    class config():
-        orm_mode = True
+        class Config:
+            orm_mode = True
